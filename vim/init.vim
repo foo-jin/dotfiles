@@ -159,9 +159,7 @@ set number relativenumber
 set nowrap
 
 let no_buffers_menu=1
-if !exists('g:not_finish_vimplug')
-  colorscheme one
-endif
+colorscheme one
 set background=dark
 
 set mousemodel=popup
