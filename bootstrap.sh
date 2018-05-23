@@ -1,23 +1,17 @@
 #!/usr/bin/env sh
 
-export DOTFILES=$HOME/dev/dotfiles
-# Remove old config dirs and files.
-cd
-rm -rf $DOTFILES .config/nvim/ .config/alacritty/
-rm -rf .tmux.conf
+script_home="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
-# Clone dotfiles repo.
-git clone --quiet https://github.com/mauroporrasp/dotfiles.git
+# Update the dotfiles repo.
+git pull
 
 # Create new symlinks.
+ln -sf $script_home/tmux.conf $HOME/.tmux.conf
+
 mkdir -p .config/nvim/
-ln -s $DOTFILES/vim/init.vim ~/.config/nvim/init.vim
+ln -sf $script_home/vim/init.vim $HOME/.config/nvim/init.vim
 
 mkdir -p .config/alacritty/
-ln -s $DOTFILES/alacritty/alacritty.yml ~/.config/alacritty/alacritty.yml
+ln -sf $script_home/alacritty/alacritty.yml $HOME/.config/alacritty/alacritty.yml
 
-ln -s $DOTFILES/tmux.conf ~/.tmux.conf
-
-# Start Neovim.
-echo 'Starting Neovim'
 nvim +PluginInstall +UpdateRemotePlugins +qa
