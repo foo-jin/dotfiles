@@ -6,7 +6,7 @@ script_home="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 git pull
 
 # Create new symlinks.
-ln -sf $script_home/tmux.conf $HOME/.tmux.conf
+ln -sf $script_home/tmux/tmux.conf $HOME/.tmux.conf
 
 mkdir -p .config/nvim/
 ln -sf $script_home/vim/init.vim $HOME/.config/nvim/init.vim
