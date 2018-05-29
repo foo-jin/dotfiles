@@ -51,10 +51,10 @@ Plug 'autozimu/LanguageClient-neovim', { 'branch': 'next',  'do': 'bash install.
 
 if v:version >= 704
   "" Snippets
-  Plug 'SirVer/ultisnips'
+  " Plug 'SirVer/ultisnips'
 endif
 
-Plug 'honza/vim-snippets'
+" Plug 'honza/vim-snippets'
 
 "" Color
 Plug 'rakr/vim-one'
@@ -112,8 +112,8 @@ set nobackup
 set noswapfile
 
 " Sane splits
-set splitright
 set splitbelow
+set splitright
 set diffopt+=vertical
 
 " Enable mouse support
@@ -146,6 +146,11 @@ set nowrap
 let no_buffers_menu=1
 colorscheme one
 set background=dark
+let g:one_allow_italics = 1
+"call one#highlight('SpecialComment', '639656', '', 'none')
+
+" always show sign column
+set signcolumn=yes
 
 set mousemodel=popup
 set t_Co=256
@@ -354,20 +359,24 @@ nnoremap <Leader>o :.Gbrowse<CR>
 let loaded_netrwPlugin = 1
 
 " snippets
-let g:UltiSnipsExpandTrigger="<tab>"
-let g:UltiSnipsJumpForwardTrigger="<tab>"
-let g:UltiSnipsJumpBackwardTrigger="<c-b>"
-let g:UltiSnipsEditSplit="vertical"
+" let g:UltiSnipsExpandTrigger="<tab>"
+" let g:UltiSnipsJumpForwardTrigger="<tab>"
+" let g:UltiSnipsJumpBackwardTrigger="<c-b>"
+" let g:UltiSnipsEditSplit="vertical"
+
+let g:delimitMate_expand_cr = 1
 
 " rust
 " rls integration
 let g:LanguageClient_serverCommands = {
     \ 'rust': ['rustup', 'run', 'nightly', 'rls'],
     \ }
+" let g:LanguageClient_hasSnippetSupport = 0
 
 " Deoplete
 let g:deoplete#enable_at_startup = 1
 let g:deoplete#enable_smart_case = 1
+call deoplete#custom#source('_', 'disable_syntaxes', ['Comment', 'String'])
 
 inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
 inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
