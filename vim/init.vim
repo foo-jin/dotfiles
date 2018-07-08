@@ -23,7 +23,8 @@ Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 Plug 'airblade/vim-gitgutter'
 Plug 'vim-scripts/CSApprox'
-Plug 'Raimondi/delimitMate'
+" Plug 'Raimondi/delimitMate'
+Plug 'Townk/vim-autoclose'
 Plug 'Yggdroot/indentLine'
 Plug 'sheerun/vim-polyglot'
 Plug 'thaerkh/vim-workspace'
@@ -365,13 +366,13 @@ let loaded_netrwPlugin = 1
 " let g:UltiSnipsEditSplit="vertical"
 
 let g:delimitMate_expand_cr = 1
-
 " rust
 " rls integration
 let g:LanguageClient_serverCommands = {
     \ 'rust': ['rustup', 'run', 'nightly', 'rls'],
     \ }
 " let g:LanguageClient_hasSnippetSupport = 0
+let b:AutoClosePairs = AutoClose#DefaultPairsModified("", "'")
 
 " Deoplete
 let g:deoplete#enable_at_startup = 1
