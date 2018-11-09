@@ -372,7 +372,9 @@ let g:LanguageClient_serverCommands = {
     \ 'rust': ['rustup', 'run', 'nightly', 'rls'],
     \ }
 " let g:LanguageClient_hasSnippetSupport = 0
-let b:AutoClosePairs = AutoClose#DefaultPairsModified("", "'")
+autocmd FileType rust
+              \ let b:AutoClosePairs = AutoClose#DefaultPairsModified("|", "")
+
 
 " Deoplete
 let g:deoplete#enable_at_startup = 1
