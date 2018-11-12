@@ -61,7 +61,7 @@ draw_bold_text_with_bright_colors: true
 font:
   # The normal (roman) font face to use.
   normal:
-    family: Consolas
+    family: monospace
   style: Book
   bold_style: Bold
   italic_style: Oblique
