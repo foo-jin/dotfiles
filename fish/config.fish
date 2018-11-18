@@ -6,10 +6,20 @@ set -U fish_user_abbreviations $fish_user_abbreviations 'g=git'
 set -U fish_user_abbreviations $fish_user_abbreviations 'gc=git checkout'
 set -U fish_user_abbreviations $fish_user_abbreviations 'vimdiff=nvim -d'
 set -U fish_user_abbreviations $fish_user_abbreviations 'gah=git stash; and git pull --rebase; and git stash pop'
+set -U fish_user_abbreviations $fish_user_abbreviations 's!=sudo !!'
 complete --command yay --wraps pacman
+
+# Start X at login
+if status is-login
+    if test -z "$DISPLAY" -a $XDG_VTNR = 1
+        exec startx # -- -keeptty
+    end
+end
 
 if status --is-interactive
     tmux ^ /dev/null; and exec true
+    alias sk sk-tmux
+    alias fzf fzf-tmux
 end
 
 if exa --version >/dev/null
@@ -20,6 +30,22 @@ else
     set -U fish_user_abbreviations $fish_user_abbreviations 'l=ls'
     set -U fish_user_abbreviations $fish_user_abbreviations 'ls=ls -l'
     set -U fish_user_abbreviations $fish_user_abbreviations 'lls=ls -la'
+end
+
+if sk --version >/dev/null
+    set -U fish_user_abbreviations $fish_user_abbreviations 'fo=xdg-open (sk) &'
+else if fzf --version >/dev/null
+    set -U fish_user_abbreviations $fish_user_abbreviations 'fo=xdg-open (fzf) &'
+end
+
+if rg --version >/dev/null
+    set rgcmd 'rg --files --hidden --follow --glob "!.git/*"'
+    if fzf --version >/dev/null
+        set -x FZF_DEFAULT_COMMAND $rgcmd
+    end
+    if sk --version >/dev/null
+        set -x SKIM_DEFAULT_COMMAND $rgcmd
+    end
 end
 
 function remote_alacritty
@@ -35,11 +61,13 @@ set PATH /usr/local/bin/ $PATH
 set PATH $PATH ~/bin
 set PATH $PATH ~/.cargo/bin
 
-setenv EDITOR nvim
-setenv BROWSER firefox
-setenv TZ 'Europe/Amsterdam'
-setenv RUST_BACKTRACE 1
-setenv RUSTFLAGS "-C target-cpu=native"
+set -x EDITOR nvim
+set -x SYSTEMD_EDITOR /usr/bin/nvim
+set -x BROWSER firefox
+set -x TZ 'Europe/Amsterdam'
+set -x RUST_BACKTRACE 1
+set -x RUSTFLAGS "-C target-cpu=native"
+set -x FZF_LEGACY_KEYBINDINGS 0
 
 function fish_greeting
     echo

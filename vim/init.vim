@@ -23,20 +23,21 @@ Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 Plug 'airblade/vim-gitgutter'
 Plug 'vim-scripts/CSApprox'
-" Plug 'Raimondi/delimitMate'
 Plug 'Townk/vim-autoclose'
 Plug 'Yggdroot/indentLine'
 Plug 'sheerun/vim-polyglot'
 Plug 'thaerkh/vim-workspace'
-if isdirectory('/usr/local/opt/fzf')
-  Plug '/usr/local/opt/fzf' | Plug 'junegunn/fzf.vim'
-else
-  Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --bin' }
-  Plug 'junegunn/fzf.vim'
+Plug 'vim-latex/vim-latex'
+Plug 'airblade/vim-rooter'
+
+if !executable('sk')
+    Plug 'lotabout/skim', { 'dir': '~/.skim', 'do': './install --bin' }
 endif
+Plug 'lotabout/skim.vim'
+
 let g:make = 'gmake'
 if exists('make')
-        let g:make = 'make'
+    let g:make = 'make'
 endif
 Plug 'Shougo/vimproc.vim', {'do': g:make}
 
@@ -49,13 +50,6 @@ else
 endif
 
 Plug 'autozimu/LanguageClient-neovim', { 'branch': 'next',  'do': 'bash install.sh', }
-
-if v:version >= 704
-  "" Snippets
-  " Plug 'SirVer/ultisnips'
-endif
-
-" Plug 'honza/vim-snippets'
 
 "" Color
 Plug 'rakr/vim-one'
@@ -215,19 +209,6 @@ cnoreabbrev W w
 cnoreabbrev Q q
 cnoreabbrev Qall qall
 
-"" NERDTree configuration
-let g:NERDTreeChDirMode=2
-let g:NERDTreeIgnore=['\.rbc$', '\~$', '\.pyc$', '\.db$', '\.sqlite$', '__pycache__']
-let g:NERDTreeSortOrder=['^__\.py$', '\/$', '*', '\.swp$', '\.bak$', '\~$']
-let g:NERDTreeShowBookmarks=1
-let g:nerdtree_tabs_focus_on_files=1
-let g:NERDTreeMapOpenInTabSilent = '<RightMouse>'
-let g:NERDTreeWinSize = 50
-set wildignore+=*/tmp/*,*.so,*.swp,*.zip,*.pyc,*.db,*.sqlite
-"nnoremap <silent> <F2> :NERDTreeFind<CR>
-"nnoremap <silent> <F3> :NERDTreeToggle<CR>
-
-
 "*****************************************************************************
 "" Functions
 "*****************************************************************************
@@ -280,15 +261,6 @@ noremap <Leader>v :<C-u>vsplit<CR>
 " workspace management
 nnoremap <leader>s :ToggleWorkspace<CR>
 
-"" Set working directory
-nnoremap <leader>. :lcd %:p:h<CR>
-
-"" Opens an edit command with the path of the currently edited file filled in
-noremap <Leader>e :e <C-R>=expand("%:p:h") . "/" <CR>
-
-"" Opens a tab edit command with the path of the currently edited file filled
-noremap <Leader>te :tabe <C-R>=expand("%:p:h") . "/" <CR>
-
 "" fzf.vim
 set wildmode=list:longest,list:full
 set wildignore+=*.o,*.obj,.git,*.rbc,*.pyc,__pycache__
@@ -303,13 +275,14 @@ endif
 " ripgrep
 if executable('rg')
   let $FZF_DEFAULT_COMMAND = 'rg --files --hidden --follow --glob "!.git/*"'
+  let $SKIM_DEFAULT_COMMAND = 'rg --files --hidden --follow --glob "!.git/*"'
   set grepprg=rg\ --vimgrep
   command! -bang -nargs=* Find call fzf#vim#grep('rg --column --line-number --no-heading --fixed-strings --ignore-case --hidden --follow --glob "!.git/*" --color "always" '.shellescape(<q-args>).'| tr -d "\017"', 1, <bang>0)
 endif
 
 cnoremap <C-P> <C-R>=expand("%:p:h") . "/" <CR>
 nnoremap <silent> <leader>b :Buffers<CR>
-nnoremap <silent> <leader>e :FZF -m<CR>
+nnoremap <silent> <leader>e :SK -m<CR>
 
 " Disable visualbell
 set noerrorbells visualbell t_vb=
@@ -336,6 +309,12 @@ endif
 nnoremap <C-N> :bnext<CR>
 nnoremap <C-P> :bprev<CR>
 
+"" Jump to next/previous error
+nnoremap <C-j> :cnext<cr>
+nnoremap <C-k> :cprev<cr>
+nnoremap <leader>l :copen<cr>
+nnoremap <C-g> :cclose<cr>
+
 "" Close buffer
 noremap <leader>c :bd<CR>
 
@@ -356,14 +335,11 @@ nnoremap <Leader>o :.Gbrowse<CR>
 "*****************************************************************************
 "" Custom configs
 "*****************************************************************************
+" rooter
+let g:rooter_patterns = ['.git', '.git/', 'Cargo.toml']
+
 " get rid of netrw
 let loaded_netrwPlugin = 1
-
-" snippets
-" let g:UltiSnipsExpandTrigger="<tab>"
-" let g:UltiSnipsJumpForwardTrigger="<tab>"
-" let g:UltiSnipsJumpBackwardTrigger="<c-b>"
-" let g:UltiSnipsEditSplit="vertical"
 
 let g:delimitMate_expand_cr = 1
 " rust

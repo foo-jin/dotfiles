@@ -1,6 +1,7 @@
 function fish_prompt
-    set_color white
-    echo -n "["(date "+%H:%M")"] "
+    # not needed using omf
+    # set_color white
+    # echo -n "["(date "+%H:%M")"] "
     set_color yellow
     echo -n (whoami)
     set_color normal
