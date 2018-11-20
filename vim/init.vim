@@ -53,6 +53,7 @@ Plug 'autozimu/LanguageClient-neovim', { 'branch': 'next',  'do': 'bash install.
 
 "" Color
 Plug 'rakr/vim-one'
+Plug 'ayu-theme/ayu-vim'
 
 " Rust.vim
 Plug 'rust-lang/rust.vim'
@@ -139,10 +140,12 @@ set number relativenumber
 set nowrap
 
 let no_buffers_menu=1
+
 colorscheme one
 set background=dark
 let g:one_allow_italics = 1
-"call one#highlight('SpecialComment', '639656', '', 'none')
+call one#highlight('rustCommentLineDoc', '639656', '', 'italic')
+call one#highlight('rustCommentBlockDoc', '639656', '', 'italic')
 
 " always show sign column
 set signcolumn=yes

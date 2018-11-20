@@ -33,7 +33,7 @@ else
 end
 
 if sk --version >/dev/null
-    set -U fish_user_abbreviations $fish_user_abbreviations 'fo=xdg-open (sk) &'
+    set -U fish_user_abbreviations $fish_user_abbreviations 'fo=xdg-open (sk) 2>/dev/null &'
 else if fzf --version >/dev/null
     set -U fish_user_abbreviations $fish_user_abbreviations 'fo=xdg-open (fzf) &'
 end
