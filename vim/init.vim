@@ -23,7 +23,6 @@ Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 Plug 'airblade/vim-gitgutter'
 Plug 'vim-scripts/CSApprox'
-Plug 'Townk/vim-autoclose'
 Plug 'Yggdroot/indentLine'
 Plug 'sheerun/vim-polyglot'
 Plug 'thaerkh/vim-workspace'
@@ -39,17 +38,16 @@ let g:make = 'gmake'
 if exists('make')
     let g:make = 'make'
 endif
-Plug 'Shougo/vimproc.vim', {'do': g:make}
 
-if has('nvim')
-  Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
-else
-  Plug 'Shougo/deoplete.nvim'
-  Plug 'roxma/nvim-yarp'
-  Plug 'roxma/vim-hug-neovim-rpc'
-endif
-
+" language server and autocompletion
 Plug 'autozimu/LanguageClient-neovim', { 'branch': 'next',  'do': 'bash install.sh', }
+Plug 'roxma/nvim-yarp'
+Plug 'ncm2/ncm2'
+
+" Completion plugins
+Plug 'ncm2/ncm2-bufword'
+Plug 'ncm2/ncm2-tmux'
+Plug 'ncm2/ncm2-path'
 
 "" Color
 Plug 'rakr/vim-one'
@@ -220,6 +218,7 @@ if !exists('*s:setupWrapping')
     set wrap
     set wm=2
     set textwidth=79
+    " set linebreak
   endfunction
 endif
 
@@ -241,7 +240,7 @@ augroup END
 "" txt
 augroup vimrc-wrapping
   autocmd!
-  autocmd BufRead,BufNewFile *.txt call s:setupWrapping()
+  autocmd FileType tex,latex,context,plaintex,txt call s:setupWrapping()
 augroup END
 
 "" make/cmake
@@ -283,7 +282,6 @@ if executable('rg')
   command! -bang -nargs=* Find call fzf#vim#grep('rg --column --line-number --no-heading --fixed-strings --ignore-case --hidden --follow --glob "!.git/*" --color "always" '.shellescape(<q-args>).'| tr -d "\017"', 1, <bang>0)
 endif
 
-cnoremap <C-P> <C-R>=expand("%:p:h") . "/" <CR>
 nnoremap <silent> <leader>b :Buffers<CR>
 nnoremap <silent> <leader>e :SK -m<CR>
 
@@ -302,21 +300,9 @@ noremap YY "+y<CR>
 noremap <leader>p "+gP<CR>
 noremap XX "+x<CR>
 
-if has('macunix')
-  " pbcopy for OSX copy/paste
-  vmap <C-x> :!pbcopy<CR>
-  vmap <C-c> :w !pbcopy<CR><CR>
-endif
-
 "" Buffer nav
 nnoremap <C-N> :bnext<CR>
 nnoremap <C-P> :bprev<CR>
-
-"" Jump to next/previous error
-nnoremap <C-j> :cnext<cr>
-nnoremap <C-k> :cprev<cr>
-nnoremap <leader>l :copen<cr>
-nnoremap <C-g> :cclose<cr>
 
 "" Close buffer
 noremap <leader>c :bd<CR>
@@ -344,30 +330,26 @@ let g:rooter_patterns = ['.git', '.git/', 'Cargo.toml']
 " get rid of netrw
 let loaded_netrwPlugin = 1
 
-let g:delimitMate_expand_cr = 1
 " rust
 " rls integration
 let g:LanguageClient_serverCommands = {
     \ 'rust': ['rustup', 'run', 'nightly', 'rls'],
     \ }
-" let g:LanguageClient_hasSnippetSupport = 0
-autocmd FileType rust
-              \ let b:AutoClosePairs = AutoClose#DefaultPairsModified("|", "")
-
-
-" Deoplete
-let g:deoplete#enable_at_startup = 1
-let g:deoplete#enable_smart_case = 1
-call deoplete#custom#source('_', 'disable_syntaxes', ['Comment', 'String'])
-
-inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
-inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
+let g:LanguageClient_autoStart = 1
 
 " LanguageClient
 nnoremap <silent> K :call LanguageClient#textDocument_hover()<CR>
 nnoremap <silent> gd :call LanguageClient#textDocument_definition()<CR>
 nnoremap <silent> <F2> :call LanguageClient#textDocument_rename()<CR>
 nnoremap <silent> <C-l> :call LanguageClient#textDocument_formatting()<CR>
+
+" Completion
+autocmd BufEnter * call ncm2#enable_for_buffer()
+set completeopt=noinsert,menuone,noselect
+" tab to select
+" and don't hijack my enter key
+inoremap <expr><Tab> (pumvisible()?(empty(v:completed_item)?"\<C-n>":"\<C-y>"):"\<Tab>")
+inoremap <expr><CR> (pumvisible()?(empty(v:completed_item)?"\<CR>\<CR>":"\<C-y>"):"\<CR>")
 
 "*****************************************************************************
 "*****************************************************************************

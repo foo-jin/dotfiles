@@ -26,35 +26,17 @@ font pango:monospace 8
 # X core fonts rendering does not support right-to-left and this being a bitmap
 # font, it doesn’t scale on retina/hidpi displays.
 
-# i3-gaps requirement
-for_window [class="^.*"] border pixel 0
-
-## i3-gaps
-# set static values
-# gaps inner 25
-# gaps outer 0
-# gaps horizontal <px>
-# gaps vertical <px>
-# gaps top <px>
-# gaps right <px>
-# gaps bottom <px>
-# gaps left <px>
-
-# Keybinds
-# gaps inner|outer|horizontal|vertical|top|right|bottom|left current|all set|plus|minus <px>
-#
-# Examples
-# gaps inner all set 20
-# gaps outer current plus 5
-# gaps horizontal current plus 40
+# display manager replacement
+# exec --no-startup-id betterlockscreen -l dim
 
 ## startup programs
-exec --no-startup-id betterlockscreen -l dim
 exec --no-startup-id xbindkeys &
 exec --no-startup-id /usr/lib/geoclue-2.0/demos/agent &
 exec --no-startup-id nitrogen --restore &
-# display manager replacement
 exec_always --no-startup-id $HOME/.config/polybar/launch.sh
+
+# remove borders
+for_window [class="^.*"] border pixel 0
 
 # Use Mouse+$mod to drag floating windows to their wanted position
 floating_modifier $mod
