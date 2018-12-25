@@ -8,24 +8,24 @@ set -U fish_user_abbreviations $fish_user_abbreviations 'vimdiff=nvim -d'
 set -U fish_user_abbreviations $fish_user_abbreviations 'gah=git stash; and git pull --rebase; and git stash pop'
 set -U fish_user_abbreviations $fish_user_abbreviations 's!=sudo !!'
 complete --command yay --wraps pacman
+complete --command hub --wraps git
 
 # Start X at login
-if status is-login
-    if test -z "$DISPLAY" -a $XDG_VTNR = 1
-        exec startx # -- -keeptty
-    end
-end
+# if status is-login
+#     if test -z "$DISPLAY" -a $XDG_VTNR = 1
+#         exec startx # -- -keeptty
+#     end
+# end
 
-if status --is-interactive
-    tmux ^ /dev/null; and exec true
-    alias sk sk-tmux
-    alias fzf fzf-tmux
-end
+# if status --is-interactive; and [ $TMUX ]
+#     set -U fish_user_abbreviations $fish_user_abbreviations 'sk=sk-tmux'
+#     set -U fish_user_abbreviations $fish_user_abbreviations 'fzf=fzf-tmux'
+# end
 
 if exa --version >/dev/null
     set -U fish_user_abbreviations $fish_user_abbreviations 'l=exa'
-    set -U fish_user_abbreviations $fish_user_abbreviations 'ls=exa -l'
-    set -U fish_user_abbreviations $fish_user_abbreviations 'lls=exa -la'
+    set -U fish_user_abbreviations $fish_user_abbreviations 'ls=exa -lh --git'
+    set -U fish_user_abbreviations $fish_user_abbreviations 'lls=exa -lha --git'
 else
     set -U fish_user_abbreviations $fish_user_abbreviations 'l=ls'
     set -U fish_user_abbreviations $fish_user_abbreviations 'ls=ls -l'
@@ -33,7 +33,7 @@ else
 end
 
 if sk --version >/dev/null
-    set -U fish_user_abbreviations $fish_user_abbreviations 'fo=xdg-open (sk) 2>/dev/null &'
+    set -U fish_user_abbreviations $fish_user_abbreviations 'fo=sk-open'
 else if fzf --version >/dev/null
     set -U fish_user_abbreviations $fish_user_abbreviations 'fo=xdg-open (fzf) &'
 end
@@ -60,6 +60,8 @@ end
 set PATH /usr/local/bin/ $PATH
 set PATH $PATH ~/bin
 set PATH $PATH ~/.cargo/bin
+# osu
+set PATH /opt/wine-osu/bin $PATH
 
 set -x EDITOR nvim
 set -x SYSTEMD_EDITOR /usr/bin/nvim
@@ -68,6 +70,11 @@ set -x TZ 'Europe/Amsterdam'
 set -x RUST_BACKTRACE 1
 set -x RUSTFLAGS "-C target-cpu=native"
 set -x FZF_LEGACY_KEYBINDINGS 0
+set -x RIPGREP_CONFIG_PATH ~/.config/ripgreprc
+set -x GNUPGHOME ~/.gnupg
+
+# source the xdg dirs
+awk 'BEGIN { FS = "=" } !/^#/ { printf("set -x %s %s\n", $1, $2) }' ~/.config/user-dirs.dirs | source
 
 function fish_greeting
     echo

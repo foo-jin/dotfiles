@@ -1,0 +1,10 @@
+[user]
+	email = frank.049@hotmail.com
+	name = frank
+	signingkey = EA0F329C6436700C
+[core]
+	excludesfile = /home/frank/.config/git/ignore
+[commit]
+	gpgsign = true
+[credential]
+	helper = /usr/bin/pass-git-helper

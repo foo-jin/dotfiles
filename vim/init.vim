@@ -25,22 +25,20 @@ Plug 'airblade/vim-gitgutter'
 Plug 'vim-scripts/CSApprox'
 Plug 'Yggdroot/indentLine'
 Plug 'sheerun/vim-polyglot'
-Plug 'thaerkh/vim-workspace'
-Plug 'vim-latex/vim-latex'
 Plug 'airblade/vim-rooter'
+Plug 'christoomey/vim-tmux-navigator'
+Plug 'bohlender/vim-smt2'
+Plug 'tpope/vim-rhubarb'
+Plug 'lervag/vimtex'
+Plug 'w0rp/ale'
 
 if !executable('sk')
     Plug 'lotabout/skim', { 'dir': '~/.skim', 'do': './install --bin' }
 endif
 Plug 'lotabout/skim.vim'
 
-let g:make = 'gmake'
-if exists('make')
-    let g:make = 'make'
-endif
-
 " language server and autocompletion
-Plug 'autozimu/LanguageClient-neovim', { 'branch': 'next',  'do': 'bash install.sh', }
+" Plug 'autozimu/LanguageClient-neovim', { 'branch': 'next',  'do': 'bash install.sh', }
 Plug 'roxma/nvim-yarp'
 Plug 'ncm2/ncm2'
 
@@ -52,6 +50,7 @@ Plug 'ncm2/ncm2-path'
 "" Color
 Plug 'rakr/vim-one'
 Plug 'ayu-theme/ayu-vim'
+Plug 'morhetz/gruvbox'
 
 " Rust.vim
 Plug 'rust-lang/rust.vim'
@@ -60,7 +59,7 @@ Plug 'rust-lang/rust.vim'
 "*****************************************************************************
 "*****************************************************************************
 
-"" Include user's extra bundle
+" Include user's extra bundle
 if filereadable(expand("~/.config/nvim/local_bundles.vim"))
   source ~/.config/nvim/local_bundles.vim
 endif
@@ -121,9 +120,6 @@ else
     set shell=/bin/sh
 endif
 
-" workspace management
-let g:workspace_autosave = 1
-
 "*****************************************************************************
 "" Visual Settings
 "*****************************************************************************
@@ -139,18 +135,17 @@ set nowrap
 
 let no_buffers_menu=1
 
-colorscheme one
+" gruvbox
 set background=dark
-let g:one_allow_italics = 1
-call one#highlight('rustCommentLineDoc', '639656', '', 'italic')
-call one#highlight('rustCommentBlockDoc', '639656', '', 'italic')
+set termguicolors
+let g:gruvbox_italic=1
+let g:gruvbox_invert_selection=0
+colorscheme gruvbox
 
 " always show sign column
 set signcolumn=yes
 
 set mousemodel=popup
-set t_Co=256
-set termguicolors
 
 let g:CSApprox_loaded = 1
 
@@ -188,8 +183,7 @@ if exists("*fugitive#statusline")
 endif
 
 " vim-airline
-let g:airline_theme = 'one'
-let g:airline#extensions#syntastic#enabled = 1
+let g:airline_theme='gruvbox'
 let g:airline#extensions#branch#enabled = 1
 let g:airline#extensions#tabline#enabled = 1
 let g:airline#extensions#tagbar#enabled = 1
@@ -216,8 +210,8 @@ cnoreabbrev Qall qall
 if !exists('*s:setupWrapping')
   function s:setupWrapping()
     set wrap
-    set wm=2
-    set textwidth=79
+    set tw=90
+    set fo=tc
     " set linebreak
   endfunction
 endif
@@ -240,8 +234,14 @@ augroup END
 "" txt
 augroup vimrc-wrapping
   autocmd!
-  autocmd FileType tex,latex,context,plaintex,txt call s:setupWrapping()
+  autocmd FileType tex,latex,context,plaintex,txt,markdown call s:setupWrapping()
 augroup END
+
+augroup smv
+    autocmd!
+    autocmd BufNewFile,BufReadPost *.smv  so ~/.config/nvim/syntax/smv.vim
+augroup END
+
 
 "" make/cmake
 augroup vimrc-make-cmake
@@ -260,8 +260,8 @@ set autoread
 noremap <Leader>h :<C-u>split<CR>
 noremap <Leader>v :<C-u>vsplit<CR>
 
-" workspace management
-nnoremap <leader>s :ToggleWorkspace<CR>
+" write file
+nnoremap <leader>s :w<CR>
 
 "" fzf.vim
 set wildmode=list:longest,list:full
@@ -301,8 +301,8 @@ noremap <leader>p "+gP<CR>
 noremap XX "+x<CR>
 
 "" Buffer nav
-nnoremap <C-N> :bnext<CR>
-nnoremap <C-P> :bprev<CR>
+nnoremap <C-n> :bnext<CR>
+nnoremap <C-p> :bprev<CR>
 
 "" Close buffer
 noremap <leader>c :bd<CR>
@@ -324,24 +324,40 @@ nnoremap <Leader>o :.Gbrowse<CR>
 "*****************************************************************************
 "" Custom configs
 "*****************************************************************************
+" tmux navigator
+let g:tmux_navigator_save_on_switch = 2
+
 " rooter
 let g:rooter_patterns = ['.git', '.git/', 'Cargo.toml']
 
 " get rid of netrw
 let loaded_netrwPlugin = 1
 
-" rust
-" rls integration
-let g:LanguageClient_serverCommands = {
-    \ 'rust': ['rustup', 'run', 'nightly', 'rls'],
-    \ }
-let g:LanguageClient_autoStart = 1
 
-" LanguageClient
-nnoremap <silent> K :call LanguageClient#textDocument_hover()<CR>
-nnoremap <silent> gd :call LanguageClient#textDocument_definition()<CR>
-nnoremap <silent> <F2> :call LanguageClient#textDocument_rename()<CR>
-nnoremap <silent> <C-l> :call LanguageClient#textDocument_formatting()<CR>
+" rls integration
+let g:ale_linters = {'rust': ['rls']}
+let g:ale_fixers = {'rust': ['rustfmt']}
+let g:ale_fix_on_save = 1
+
+nnoremap <silent> K :ALEHover<CR>
+nnoremap <silent> gd :ALEGoToDefinition<CR>
+nnoremap <silent> <leader>l :ALEFix<CR>
+nnoremap <silent> <leader>r :ALEStopAllLSPs<CR>:ALELint<CR>
+
+
+" " rust
+" let g:rustfmt_autosave = 1
+" nnoremap <silent>  <leader>l :RustFmt<CR>
+" let g:LanguageClient_serverCommands = {
+"     \ 'rust': ['rustup', 'run', 'nightly', 'rls'],
+"     \ }
+" " let g:LanguageClient_autoStart = 1
+
+" " LanguageClient
+" nnoremap <silent> K :call LanguageClient#textDocument_hover()<CR>
+" nnoremap <silent> gd :call LanguageClient#textDocument_definition()<CR>
+" nnoremap <silent> <F2> :call LanguageClient#textDocument_rename()<CR>
+" nnoremap <silent> <leader>l :call LanguageClient#textDocument_formatting()<CR>
 
 " Completion
 autocmd BufEnter * call ncm2#enable_for_buffer()

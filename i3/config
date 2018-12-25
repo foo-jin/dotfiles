@@ -42,13 +42,17 @@ for_window [class="^.*"] border pixel 0
 floating_modifier $mod
 
 # start a terminal
-bindsym $mod+Return exec alacritty
+set $term alacritty
+bindsym $mod+Return exec $term
 
 # kill focused window
 bindsym $mod+q kill
 
 # start dmenu (a program launcher)
 bindsym $mod+d exec dmenu_run
+bindsym $mod+p exec passmenu
+bindsym $mod+o exec $term --class sk-launch -d 80 15 -e /home/frank/bin/sk-launch -t "Open File" --working-directory /home/frank/
+for_window [class="Alacritty" instance="sk-launch"] floating enable
 # There also is the (new) i3-dmenu-desktop which only displays applications
 # shipping a .desktop file. It is a wrapper around dmenu, so you need that
 # installed.
@@ -149,6 +153,8 @@ bindsym $mod+Shift+r restart
 # exit i3 (logs you out of your X session)
 bindsym $mod+Shift+e exec "i3-nagbar -t warning -m 'You pressed the exit shortcut. Do you really want to exit i3? This will end your X session.' -B 'Yes, exit i3' 'i3-msg exit'"
 
+set $dx 2
+set $dy 2
 # resize window you can also use the mouse for that)
 mode "resize" {
         # These bindings trigger as soon as you enter the resize mode
@@ -157,10 +163,10 @@ mode "resize" {
         # Pressing right will grow the window’s width.
         # Pressing up will shrink the window’s height.
         # Pressing down will grow the window’s height.
-        bindsym h resize shrink width 5 px or 5 ppt
-        bindsym j resize grow height 5 px or 5 ppt
-        bindsym k resize shrink height 5 px or 5 ppt
-        bindsym l resize grow width 5 px or 5 ppt
+        bindsym h resize shrink width $dx px or $dx ppt
+        bindsym j resize grow height $dy px or $dy ppt
+        bindsym k resize shrink height $dy px or $dy ppt
+        bindsym l resize grow width $dx px or $dx ppt
 
         # same bindings, but for the arrow keys
         # bindsym Left resize shrink width 5 px or 5 ppt
