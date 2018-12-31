@@ -16,6 +16,7 @@ call plug#begin(expand('~/.config/nvim/plugged'))
 "*****************************************************************************
 "" Plug install packages
 "*****************************************************************************
+"ha
 Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-unimpaired'
@@ -27,9 +28,7 @@ Plug 'Yggdroot/indentLine'
 Plug 'sheerun/vim-polyglot'
 Plug 'airblade/vim-rooter'
 Plug 'christoomey/vim-tmux-navigator'
-Plug 'bohlender/vim-smt2'
 Plug 'tpope/vim-rhubarb'
-Plug 'lervag/vimtex'
 Plug 'w0rp/ale'
 
 if !executable('sk')
@@ -52,9 +51,10 @@ Plug 'rakr/vim-one'
 Plug 'ayu-theme/ayu-vim'
 Plug 'morhetz/gruvbox'
 
-" Rust.vim
+" Language specific
 Plug 'rust-lang/rust.vim'
-
+Plug 'lervag/vimtex'
+Plug 'bohlender/vim-smt2'
 
 "*****************************************************************************
 "*****************************************************************************

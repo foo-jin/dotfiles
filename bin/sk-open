@@ -1,0 +1,6 @@
+#! /usr/bin/env bash
+set -e
+
+if selection=$(rg --files --follow --glob "!.git/*" | sk); then
+    spawn-disown xdg-open "$selection" > /dev/null 2>&1 
+fi

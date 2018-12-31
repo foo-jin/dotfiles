@@ -1,48 +1,29 @@
-set -U fish_user_abbreviations
-set -U fish_user_abbreviations $fish_user_abbreviations 'c=cargo'
-set -U fish_user_abbreviations $fish_user_abbreviations 'm=make'
-set -U fish_user_abbreviations $fish_user_abbreviations 'o=xdg-open'
-set -U fish_user_abbreviations $fish_user_abbreviations 'g=git'
-set -U fish_user_abbreviations $fish_user_abbreviations 'gc=git checkout'
-set -U fish_user_abbreviations $fish_user_abbreviations 'vimdiff=nvim -d'
-set -U fish_user_abbreviations $fish_user_abbreviations 'gah=git stash; and git pull --rebase; and git stash pop'
-set -U fish_user_abbreviations $fish_user_abbreviations 's!=sudo !!'
+set -x fish_user_abbreviations
+set -x fish_user_abbreviations $fish_user_abbreviations 'c=cargo'
+set -x fish_user_abbreviations $fish_user_abbreviations 'm=make'
+set -x fish_user_abbreviations $fish_user_abbreviations 'g=git'
+set -x fish_user_abbreviations $fish_user_abbreviations 'gc=git checkout'
+set -x fish_user_abbreviations $fish_user_abbreviations 'vimdiff=nvim -d'
+set -x fish_user_abbreviations $fish_user_abbreviations 'gah=git stash; and git pull --rebase; and git stash pop'
+set -x fish_user_abbreviations $fish_user_abbreviations 's!=sudo !!'
 complete --command yay --wraps pacman
-complete --command hub --wraps git
-
-# Start X at login
-# if status is-login
-#     if test -z "$DISPLAY" -a $XDG_VTNR = 1
-#         exec startx # -- -keeptty
-#     end
-# end
-
-# if status --is-interactive; and [ $TMUX ]
-#     set -U fish_user_abbreviations $fish_user_abbreviations 'sk=sk-tmux'
-#     set -U fish_user_abbreviations $fish_user_abbreviations 'fzf=fzf-tmux'
-# end
 
 if exa --version >/dev/null
-    set -U fish_user_abbreviations $fish_user_abbreviations 'l=exa'
-    set -U fish_user_abbreviations $fish_user_abbreviations 'ls=exa -lh --git'
-    set -U fish_user_abbreviations $fish_user_abbreviations 'lls=exa -lha --git'
+    set -x fish_user_abbreviations $fish_user_abbreviations 'l=exa'
+    set -x fish_user_abbreviations $fish_user_abbreviations 'ls=exa -lh --git'
+    set -x fish_user_abbreviations $fish_user_abbreviations 'lls=exa -lha --git'
 else
-    set -U fish_user_abbreviations $fish_user_abbreviations 'l=ls'
-    set -U fish_user_abbreviations $fish_user_abbreviations 'ls=ls -l'
-    set -U fish_user_abbreviations $fish_user_abbreviations 'lls=ls -la'
+    set -x fish_user_abbreviations $fish_user_abbreviations 'l=ls'
+    set -x fish_user_abbreviations $fish_user_abbreviations 'ls=ls -l'
+    set -x fish_user_abbreviations $fish_user_abbreviations 'lls=ls -la'
 end
 
 if sk --version >/dev/null
-    set -U fish_user_abbreviations $fish_user_abbreviations 'fo=sk-open'
-else if fzf --version >/dev/null
-    set -U fish_user_abbreviations $fish_user_abbreviations 'fo=xdg-open (fzf) &'
+    set -x fish_user_abbreviations $fish_user_abbreviations 'fo=sk-open'
 end
 
 if rg --version >/dev/null
-    set rgcmd 'rg --files --hidden --follow --glob "!.git/*"'
-    if fzf --version >/dev/null
-        set -x FZF_DEFAULT_COMMAND $rgcmd
-    end
+    set -l rgcmd 'rg --files --hidden --follow --glob "!.git/*"'
     if sk --version >/dev/null
         set -x SKIM_DEFAULT_COMMAND $rgcmd
     end
@@ -57,24 +38,29 @@ function remote_alacritty
     ssh $argv[1] rm "alacritty-256color.ti"
 end
 
-set PATH /usr/local/bin/ $PATH
-set PATH $PATH ~/bin
-set PATH $PATH ~/.cargo/bin
-# osu
-set PATH /opt/wine-osu/bin $PATH
+set -x PATH /usr/local/bin/ $PATH
+set -x PATH $PATH ~/bin
+set -x PATH $PATH ~/.cargo/bin
 
-set -x EDITOR nvim
-set -x SYSTEMD_EDITOR /usr/bin/nvim
+set -x XDG_CONFIG_HOME $HOME/.config
+set -l cfg $XDG_CONFIG_HOME
+# source the xdg dirs
+awk 'BEGIN { FS = "=" } !/^#/ { printf("set -x %s %s\n", $1, $2) }' $cfg/user-dirs.dirs | source
+
+set -x EDITOR (which nvim)
+set -x SYSTEMD_EDITOR $EDITOR
 set -x BROWSER firefox
 set -x TZ 'Europe/Amsterdam'
 set -x RUST_BACKTRACE 1
 set -x RUSTFLAGS "-C target-cpu=native"
-set -x FZF_LEGACY_KEYBINDINGS 0
-set -x RIPGREP_CONFIG_PATH ~/.config/ripgreprc
-set -x GNUPGHOME ~/.gnupg
+set -x RIPGREP_CONFIG_PATH $cfg/ripgreprc
+set -x GNUPGHOME $cfg/gnupg
 
-# source the xdg dirs
-awk 'BEGIN { FS = "=" } !/^#/ { printf("set -x %s %s\n", $1, $2) }' ~/.config/user-dirs.dirs | source
+# source local config
+set -l localcfg $cfg/fish/local-config.fish
+if test -e $localcfg
+    source $localcfg
+end
 
 function fish_greeting
     echo
