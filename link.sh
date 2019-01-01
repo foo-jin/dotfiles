@@ -37,6 +37,9 @@ link_dir i3
 # polybar
 link_dir polybar
 
+# redshift
+link_dir redshift
+
 # git
 link_dir git
 git config --global core.excludesfile $config_dir/git/ignore
