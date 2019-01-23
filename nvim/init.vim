@@ -30,6 +30,7 @@ Plug 'airblade/vim-rooter'
 Plug 'christoomey/vim-tmux-navigator'
 Plug 'tpope/vim-rhubarb'
 Plug 'w0rp/ale'
+Plug 'junegunn/vim-easy-align'
 
 if !executable('sk')
     Plug 'lotabout/skim', { 'dir': '~/.skim', 'do': './install --bin' }
@@ -37,7 +38,6 @@ endif
 Plug 'lotabout/skim.vim'
 
 " language server and autocompletion
-" Plug 'autozimu/LanguageClient-neovim', { 'branch': 'next',  'do': 'bash install.sh', }
 Plug 'roxma/nvim-yarp'
 Plug 'ncm2/ncm2'
 
@@ -55,6 +55,7 @@ Plug 'morhetz/gruvbox'
 Plug 'rust-lang/rust.vim'
 Plug 'lervag/vimtex'
 Plug 'bohlender/vim-smt2'
+Plug 'mlr-msft/vim-loves-dafny', {'for': 'dafny'}
 
 "*****************************************************************************
 "*****************************************************************************
@@ -260,41 +261,11 @@ set autoread
 noremap <Leader>h :<C-u>split<CR>
 noremap <Leader>v :<C-u>vsplit<CR>
 
-" write file
+"" Write file
 nnoremap <leader>s :w<CR>
-
-"" fzf.vim
-set wildmode=list:longest,list:full
-set wildignore+=*.o,*.obj,.git,*.rbc,*.pyc,__pycache__
-let $FZF_DEFAULT_COMMAND =  "find * -path '*/\.*' -prune -o -path 'node_modules/**' -prune -o -path 'target/**' -prune -o -path 'dist/**' -prune -o  -type f -print -o -type l -print 2> /dev/null"
-
-" The Silver Searcher
-if executable('ag')
-  let $FZF_DEFAULT_COMMAND = 'ag --hidden --ignore .git -g ""'
-  set grepprg=ag\ --nogroup\ --nocolor
-endif
-
-" ripgrep
-if executable('rg')
-  let $FZF_DEFAULT_COMMAND = 'rg --files --hidden --follow --glob "!.git/*"'
-  let $SKIM_DEFAULT_COMMAND = 'rg --files --hidden --follow --glob "!.git/*"'
-  set grepprg=rg\ --vimgrep
-  command! -bang -nargs=* Find call fzf#vim#grep('rg --column --line-number --no-heading --fixed-strings --ignore-case --hidden --follow --glob "!.git/*" --color "always" '.shellescape(<q-args>).'| tr -d "\017"', 1, <bang>0)
-endif
 
 nnoremap <silent> <leader>b :Buffers<CR>
 nnoremap <silent> <leader>e :SK -m<CR>
-
-" Disable visualbell
-set noerrorbells visualbell t_vb=
-if has('autocmd')
-  autocmd GUIEnter * set visualbell t_vb=
-endif
-
-"" Copy/Paste/Cut
-if has('unnamedplus')
-  set clipboard=unnamed,unnamedplus
-endif
 
 noremap YY "+y<CR>
 noremap <leader>p "+gP<CR>
@@ -318,6 +289,13 @@ vmap > >gv
 vnoremap J :m '>+1<CR>gv=gv
 vnoremap K :m '<-2<CR>gv=gv
 
+"" vim-easy-align
+" Start interactive EasyAlign in visual mode (e.g. vipga)
+xmap ga <Plug>(EasyAlign)
+
+" Start interactive EasyAlign for a motion/text object (e.g. gaip)
+nmap ga <Plug>(EasyAlign)
+
 "" Open current line on GitHub
 nnoremap <Leader>o :.Gbrowse<CR>
 
@@ -331,12 +309,14 @@ let g:tmux_navigator_save_on_switch = 2
 let g:rooter_patterns = ['.git', '.git/', 'Cargo.toml']
 
 " get rid of netrw
-let loaded_netrwPlugin = 1
-
+" let loaded_netrwPlugin = 1
 
 " rls integration
 let g:ale_linters = {'rust': ['rls']}
-let g:ale_fixers = {'rust': ['rustfmt']}
+let g:ale_fixers = {
+            \'rust': ['rustfmt'],
+            \'*': ['trim_whitespace'],
+            \}
 let g:ale_fix_on_save = 1
 
 nnoremap <silent> K :ALEHover<CR>
@@ -344,20 +324,30 @@ nnoremap <silent> gd :ALEGoToDefinition<CR>
 nnoremap <silent> <leader>l :ALEFix<CR>
 nnoremap <silent> <leader>r :ALEStopAllLSPs<CR>:ALELint<CR>
 
+" Disable visualbell
+set noerrorbells visualbell t_vb=
+if has('autocmd')
+  autocmd GUIEnter * set visualbell t_vb=
+endif
 
-" " rust
-" let g:rustfmt_autosave = 1
-" nnoremap <silent>  <leader>l :RustFmt<CR>
-" let g:LanguageClient_serverCommands = {
-"     \ 'rust': ['rustup', 'run', 'nightly', 'rls'],
-"     \ }
-" " let g:LanguageClient_autoStart = 1
+"" Copy/Paste/Cut
+if has('unnamedplus')
+  set clipboard=unnamed,unnamedplus
+endif
 
-" " LanguageClient
-" nnoremap <silent> K :call LanguageClient#textDocument_hover()<CR>
-" nnoremap <silent> gd :call LanguageClient#textDocument_definition()<CR>
-" nnoremap <silent> <F2> :call LanguageClient#textDocument_rename()<CR>
-" nnoremap <silent> <leader>l :call LanguageClient#textDocument_formatting()<CR>
+
+" fzf.vim
+set wildmode=list:longest,list:full
+set wildignore+=*.o,*.obj,.git,*.rbc,*.pyc,__pycache__
+let $FZF_DEFAULT_COMMAND =  "find * -path '*/\.*' -prune -o -path 'node_modules/**' -prune -o -path 'target/**' -prune -o -path 'dist/**' -prune -o  -type f -print -o -type l -print 2> /dev/null"
+
+" ripgrep
+if executable('rg')
+  let $SKIM_DEFAULT_COMMAND = 'rg --files --hidden --follow --glob "!.git/*"'
+  set grepprg=rg\ --vimgrep
+  command! -bang -nargs=* Find call fzf#vim#grep('rg --column --line-number --no-heading --fixed-strings --ignore-case --hidden --follow --glob "!.git/*" --color "always" '.shellescape(<q-args>).'| tr -d "\017"', 1, <bang>0)
+endif
+
 
 " Completion
 autocmd BufEnter * call ncm2#enable_for_buffer()
