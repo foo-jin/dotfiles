@@ -1,25 +1,24 @@
-set -x fish_user_abbreviations
-set -x fish_user_abbreviations $fish_user_abbreviations 'c=cargo'
-set -x fish_user_abbreviations $fish_user_abbreviations 'm=make'
-set -x fish_user_abbreviations $fish_user_abbreviations 'g=git'
-set -x fish_user_abbreviations $fish_user_abbreviations 'gc=git checkout'
-set -x fish_user_abbreviations $fish_user_abbreviations 'vimdiff=nvim -d'
-set -x fish_user_abbreviations $fish_user_abbreviations 'gah=git stash; and git pull --rebase; and git stash pop'
-set -x fish_user_abbreviations $fish_user_abbreviations 's!=sudo !!'
+abbr -a c cargo
+abbr -a m make
+abbr -a g git
+abbr -a gc 'git checkout'
+abbr -a vimdiff 'nvim -d'
+abbr -a gah 'git stash; and git pull --rebase; and git stash pop'
+abbr -a s! 'sudo !!'
 complete --command yay --wraps pacman
 
 if exa --version >/dev/null
-    set -x fish_user_abbreviations $fish_user_abbreviations 'l=exa'
-    set -x fish_user_abbreviations $fish_user_abbreviations 'ls=exa -lh --git'
-    set -x fish_user_abbreviations $fish_user_abbreviations 'lls=exa -lha --git'
+    abbr -a l exa
+    abbr -a ls 'exa -lh --git'
+    abbr -a lls 'exa -lha --git'
 else
-    set -x fish_user_abbreviations $fish_user_abbreviations 'l=ls'
-    set -x fish_user_abbreviations $fish_user_abbreviations 'ls=ls -l'
-    set -x fish_user_abbreviations $fish_user_abbreviations 'lls=ls -la'
+    abbr -a l ls
+    abbr -a ls 'ls -l'
+    abbr -a lls 'ls -la'
 end
 
 if sk --version >/dev/null
-    set -x fish_user_abbreviations $fish_user_abbreviations 'fo=sk-open'
+    abbr -a fo sk-open
 end
 
 if rg --version >/dev/null
@@ -41,13 +40,14 @@ end
 set -x PATH /usr/local/bin/ $PATH
 set -x PATH $PATH ~/bin
 set -x PATH $PATH ~/.cargo/bin
+set -x PATH $PATH ~/.emacs.d/bin
 
 set -x XDG_CONFIG_HOME $HOME/.config
 set -l cfg $XDG_CONFIG_HOME
 # source the xdg dirs
 awk 'BEGIN { FS = "=" } !/^#/ { printf("set -x %s %s\n", $1, $2) }' $cfg/user-dirs.dirs | source
 
-set -x EDITOR (which nvim)
+set -x EDITOR (which emacs)
 set -x SYSTEMD_EDITOR $EDITOR
 set -x BROWSER firefox
 set -x TZ 'Europe/Amsterdam'
