@@ -27,9 +27,7 @@ font pango:monospace 8
 # font, it doesn’t scale on retina/hidpi displays.
 
 ## startup programs
-exec --no-startup-id xbindkeys &
 exec --no-startup-id nitrogen --restore &
-exec --no-startup-id udiskie &
 exec_always --no-startup-id $HOME/.config/polybar/launch.sh
 
 # remove borders

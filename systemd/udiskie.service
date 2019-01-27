@@ -1,0 +1,10 @@
+[Unit]
+Description=Udiskie automounter
+After=display-manager.service
+
+[Service]
+ExecStart=/usr/bin/udiskie -antv
+Restart=on-failure
+
+[Install]
+WantedBy=default.target
