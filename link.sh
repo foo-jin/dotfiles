@@ -16,9 +16,12 @@ ln -f $script_home/tmux/tmux.conf $HOME/.tmux.conf
 # xbindkeys
 ln -f $script_home/xbindkeys/xbindkeysrc $config_dir/xbindkeysrc
 
+# Xmodmap
+ln -f $script_home/xmodmap/Xmodmap $HOME/.Xmodmap
+
 # systemd user units
 mkdir -p $config_dir/systemd/user
-ln -f $scrip_home/systemd/* $config_dir/systemd/user
+ln -f $script_home/systemd/* $config_dir/systemd/user
 
 link_dir() {
     mkdir -p $config_dir/$1
