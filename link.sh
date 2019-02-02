@@ -14,7 +14,7 @@ ln -f $script_home/xdg/user-dirs.dirs $config_dir/user-dirs.dirs
 ln -f $script_home/tmux/tmux.conf $HOME/.tmux.conf
 
 # xbindkeys
-ln -f $script_home/xbindkeys/xbindkeysrc $HOME/.xbindkeysrc
+ln -f $script_home/xbindkeys/xbindkeysrc $config_dir/xbindkeysrc
 
 # systemd user units
 mkdir -p $config_dir/systemd/user
