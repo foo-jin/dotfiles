@@ -28,6 +28,7 @@ font pango:monospace 8
 
 ## startup programs
 exec --no-startup-id nitrogen --restore &
+exec --no-startup-id xmodmap ~/.config/Xmodmap &
 exec_always --no-startup-id $HOME/.config/polybar/launch.sh
 
 # remove borders
