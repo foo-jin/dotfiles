@@ -47,8 +47,12 @@ set -l cfg $XDG_CONFIG_HOME
 # source the xdg dirs
 awk 'BEGIN { FS = "=" } !/^#/ { printf("set -x %s %s\n", $1, $2) }' $cfg/user-dirs.dirs | source
 
-set -x EDITOR neovim
-set -x SYSTEMD_EDITOR $EDITOR
+if nvim --version >/dev/null
+    set -x EDITOR (which nvim)
+    set -x SUDO_EDITOR $EDITOR
+    set -x SYSTEMD_EDITOR $EDITOR
+end
+
 set -x BROWSER firefox
 set -x TZ 'Europe/Amsterdam'
 set -x RUST_BACKTRACE 1
