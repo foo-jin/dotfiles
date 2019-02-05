@@ -16,14 +16,21 @@
 
 ;;; Package configuration
 ;; magit
-(after! magit
-  (setq magit-repository-directories '(("~/dev/" . 3))))
+(setq magit-repository-directories '(("~/dev/" . 3))
+      magit-rebase-arguments '("--autostash")
+      magit-pull-arguments '("--rebase" "--autostash"))
 
 ;; latex
 (setq +latex-viewers '(zathura))
 
 ;; ssh
-(after! ssh
-  (setq ssh-directory-tracking-mode t)
-  (shell-dirtrack-mode t)
-  (setq dirtrackp nil))
+(setq ssh-directory-tracking-mode t)
+(shell-dirtrack-mode t)
+(setq dirtrackp nil)
+
+;; org-mode
+(setq org-directory (expand-file-name "~/documents/notes/")
+     org-agenda-files (list org-directory)
+     org-ellipsis " ▼ "
+     ;; org-bullets-list '("#")
+     )
