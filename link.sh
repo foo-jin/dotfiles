@@ -1,4 +1,4 @@
-#!/usr/bin/env sh
+#!/usr/bin/env bash
 
 script_home="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 config_dir=${XDG_CONFIG_HOME:-$HOME/.config}
@@ -22,6 +22,9 @@ ln -f $script_home/xmodmap/Xmodmap $config_dir/Xmodmap
 # systemd user units
 mkdir -p $config_dir/systemd/user
 ln -f $script_home/systemd/* $config_dir/systemd/user
+
+# doom-emacs config
+ln -sf $script_home/doom $config_dir
 
 link_dir() {
     mkdir -p $config_dir/$1
