@@ -12,7 +12,7 @@
 (setq doom-font (font-spec :family "Source Code Pro" :size 14))
 
 ;; relative line numbers
-(setq display-line-numbers-type 'visual)
+(setq doom--line-number-style 'relative)
 
 ;;; Package configuration
 ;; magit
