@@ -3,7 +3,7 @@ Description=Bind media keys to signals
 After=display-manager.service
 
 [Service]
-ExecStart=/usr/bin/xbindkeys -v -n -f $HOME/.config/xbindkeysrc
+ExecStart=/usr/bin/xbindkeys -v -n -f %h/.config/xbindkeysrc
 Restart=on-failure
 
 [Install]
