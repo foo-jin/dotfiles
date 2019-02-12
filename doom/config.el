@@ -34,3 +34,10 @@
      org-ellipsis " ▼ "
      ;; org-bullets-list '("#")
      )
+
+;; format-on-save
+(setq +format-on-save-enabled-modes
+  '(not emacs-lisp-mode  ; elisp's mechanisms are good enough
+        sql-mode         ; sqlformat is currently broken
+        c-mode
+        c++-mode))        ; 2-space indentation?

@@ -84,9 +84,7 @@
 
        :lang
        ;;assembly          ; assembly for fun or debugging
-       (cc
-        ;; +irony
-        +rtags); C/C++/Obj-C madness
+       ;; (cc +irony +rtags)  ; C/C++/Obj-C madness
        ;;clojure           ; java with a lisp
        ;;common-lisp       ; if you've seen one lisp, you've seen them all
        ;;coq               ; proofs-as-programs
@@ -152,11 +150,8 @@
        ;;impatient-mode    ; show off code over HTTP
 
        :config
-       ;; For literate config users. This will tangle+compile a config.org
-       ;; literate config in your `doom-private-dir' whenever it changes.
-       ;;literate
+       (default +bindings +smartparens)
 
-       ;; The default module sets reasonable defaults for Emacs. It also
-       ;; provides a Spacemacs-inspired keybinding scheme and a smartparens
-       ;; config. Use it as a reference for your own modules.
-       (default +bindings +smartparens))
+       :private
+       (cc +rtags)
+       )
