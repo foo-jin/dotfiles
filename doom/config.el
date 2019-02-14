@@ -23,11 +23,6 @@
 ;; latex
 (setq +latex-viewers '(zathura))
 
-;; ssh
-(setq ssh-directory-tracking-mode t)
-(shell-dirtrack-mode t)
-(setq dirtrackp nil)
-
 ;; org-mode
 (setq org-directory (expand-file-name "~/documents/notes/")
      org-agenda-files (list org-directory)

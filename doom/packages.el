@@ -8,4 +8,3 @@
 
 ;;; Code:
 (package! gruvbox-theme)
-(package! ssh)
