@@ -5,6 +5,7 @@ abbr -a gc 'git checkout'
 abbr -a vimdiff 'nvim -d'
 abbr -a gah 'git stash; and git pull --rebase; and git stash pop'
 abbr -a s! 'sudo !!'
+abbr -a ytdl youtube-dl
 complete --command yay --wraps pacman
 
 if exa --version >/dev/null
