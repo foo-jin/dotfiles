@@ -60,6 +60,7 @@ set -x RUST_BACKTRACE 1
 set -x RUSTFLAGS "-C target-cpu=native"
 set -x RIPGREP_CONFIG_PATH $cfg/ripgreprc
 set -x GNUPGHOME $cfg/gnupg
+set -x PASSWORD_STORE_GENERATED_LENGTH 20
 
 # source local config
 set -l localcfg $cfg/fish/local-config.fish
