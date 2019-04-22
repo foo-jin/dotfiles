@@ -43,6 +43,7 @@ link_dir alacritty
 
 # i3
 link_dir i3
+link_dir i3status
 
 # polybar
 link_dir polybar
