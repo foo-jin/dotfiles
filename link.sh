@@ -21,7 +21,8 @@ ln -f $script_home/xmodmap/Xmodmap $config_dir/Xmodmap
 
 # systemd user units
 mkdir -p $config_dir/systemd/user
-ln -f $script_home/systemd/* $config_dir/systemd/user
+ln -f $script_home/systemd/user/* $config_dir/systemd/user
+sudo cp $script_home/systemd/system/* /usr/lib/systemd/system
 
 # doom-emacs config
 ln -sf $script_home/doom $config_dir
