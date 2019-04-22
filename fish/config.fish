@@ -1,25 +1,26 @@
-abbr -a c cargo
-abbr -a m make
-abbr -a g git
-abbr -a gc 'git checkout'
-abbr -a vimdiff 'nvim -d'
-abbr -a gah 'git stash; and git pull --rebase; and git stash pop'
-abbr -a s! 'sudo !!'
-abbr -a ytdl youtube-dl
+abbr -a -g c cargo
+abbr -a -g m make
+abbr -a -g g git
+abbr -a -g gc 'git checkout'
+abbr -a -g vimdiff 'nvim -d'
+abbr -a -g gah 'git stash; and git pull --rebase; and git stash pop'
+abbr -a -g s! 'sudo !!'
+abbr -a -g yt youtube-dl
+abbr -a -g sys systemctl
 complete --command yay --wraps pacman
 
 if exa --version >/dev/null
-    abbr -a l exa
-    abbr -a ls 'exa -lh --git'
-    abbr -a lls 'exa -lha --git'
+    alias l exa
+    alias ls 'exa -lh --git'
+    alias lls 'exa -lha --git'
 else
-    abbr -a l ls
-    abbr -a ls 'ls -l'
-    abbr -a lls 'ls -la'
+    alias l ls
+    alias ls 'ls -l'
+    alias lls 'ls -la'
 end
 
 if sk --version >/dev/null
-    abbr -a fo sk-open
+    abbr -a -g fo sk-open
 end
 
 if rg --version >/dev/null
@@ -55,6 +56,7 @@ if nvim --version >/dev/null
 end
 
 set -x BROWSER firefox
+set -x TERMCMD alacritty
 set -x TZ 'Europe/Amsterdam'
 set -x RUST_BACKTRACE 1
 set -x RUSTFLAGS "-C target-cpu=native"
