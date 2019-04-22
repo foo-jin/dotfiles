@@ -56,6 +56,7 @@ Plug 'rust-lang/rust.vim'
 Plug 'lervag/vimtex'
 Plug 'bohlender/vim-smt2'
 Plug 'mlr-msft/vim-loves-dafny', {'for': 'dafny'}
+Plug 'Firef0x/PKGBUILD.vim'
 
 "*****************************************************************************
 "*****************************************************************************

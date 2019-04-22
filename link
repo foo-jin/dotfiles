@@ -46,9 +46,6 @@ link_dir alacritty
 link_dir i3
 link_dir i3status
 
-# polybar
-link_dir polybar
-
 # redshift
 link_dir redshift
 
