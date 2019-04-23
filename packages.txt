@@ -23,6 +23,7 @@ ranger
 redshift
 reflector
 ripgrep
+stow
 udiskie
 unclutter
 unrar
