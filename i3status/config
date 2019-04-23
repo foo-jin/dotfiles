@@ -6,67 +6,23 @@ general {
   interval = 1
 }
 
-# order += 'usbguard'
 order += 'yubikey'
-# order += 'external_script pacdiff'
-# order += 'external_script checkofficial'
-# order += 'external_script checkupdates'
-# order += 'external_script checkupdates_aur'
-# order += 'external_script checkupdates_vcs'
-# order += 'external_script checkrebuild'
-# order += 'external_script checkfirmware'
-# order += 'external_script new_email'
-# order += 'file_status decrypted'
-# order += 'scratchpad_async'
 order += 'net_rate'
-# order += 'mega_sync'
-# order += 'diskdata'
 order += 'group cpu'
 order += 'group ram'
 order += 'xrandr'
-# order += 'group wifi'
-# order += 'ethernet enp33s0'
 order += 'file_status VPN'
 order += 'whatismyip'
-# order += 'backlight'
 order += 'volume_status'
 order += 'do_not_disturb'
-# order += 'battery_level'
 order += 'keyboard_layout'
 order += 'external_script date'
 order += 'clock'
-
-backlight {
-  cache_timeout = -1
-  brightness_delta = 10
-  low_tune_threshold = 10
-  command = 'light'
-  format = '\?color=good 󰀅  {level}%'
-  on_udev_backlight = 'refresh_and_freeze'
-}
-
-battery_level {
-  cache_timeout = 60
-  blocks = '󰀙󰀘󰀗󰀖󰀕'
-  charging_character = '󰀔'
-  color_charging = '#fabd2f'
-  format = '{icon}   {percent}%'
-  notify_low_level = true
-  measurement_mode = 'sys'
-  on_udev_power_supply = 'refresh'
-}
 
 clock {
   format = '{Europe/Amsterdam}'
   format_time = '{icon}   %H:%M   '
   blocks = '󰀯󰀻󰀤󰀰󰀥󰀱󰀦󰀲󰀧󰀳󰀨󰀴󰀩󰀵󰀪󰀶󰀫󰀷󰀬󰀸󰀭󰀹󰀮󰀺'
-}
-
-diskdata {
-  disk = None
-  format = '\?color=free 󰀇  {free} GB'
-  format_space = '{value:.0f}'
-  thresholds = {'free': [(0, 'bad'), (2, 'degraded'), (5, 'good')]}
 }
 
 ethernet enp33s0 {
@@ -79,61 +35,6 @@ external_script date {
   script_path = 'date +"%a, %d %b"'
   format = '󰀛    {output}'
   on_click 1 = 'exec gsimplecal'
-}
-
-external_script checkofficial {
-  cache_timeout = 1200
-  button_show_notification = 1
-  script_path = "check-aur-became-official"
-  format = '\?if=lines&color=degraded 󰀽  official {lines}'
-}
-
-external_script checkupdates {
-  cache_timeout = 1200
-  button_show_notification = 1
-  script_path = "is_online && checkupdates"
-  format = '\?if=lines&color=degraded 󰀾  {lines}'
-}
-
-external_script checkupdates_aur {
-  cache_timeout = 1200
-  button_show_notification = 1
-  script_path = "is_online && aur repo -u"
-  format = '\?if=lines&color=degraded 󰀽  {lines}'
-}
-
-external_script checkupdates_vcs {
-  cache_timeout = 1200
-  button_show_notification = 1
-  script_path = "is_online && aur vercmp-devel"
-  format = '\?if=lines&color=degraded 󰀼  {lines}'
-}
-
-external_script checkrebuild {
-  cache_timeout = -1
-  button_show_notification = 1
-  script_path = "checkrebuild | grep maximbaz || true"
-  format = '\?if=lines&color=degraded 󰁂  {lines}'
-}
-
-external_script checkfirmware {
-  cache_timeout = 43200   # twice a day
-  script_path = "fwupdmgr refresh >/dev/null; fwupdmgr get-updates 2>/dev/null"
-  format = '\?if=lines&color=degraded '
-  on_click 1 = 'exec notify-send "Firmware updates" "$ fwupdmgr get-updates\\n$ fwupdmgr update"'
-}
-
-external_script new_email {
-  cache_timeout = 2
-  script_path = "notmuch count tag:unread"
-  format = '\?if=output&color=degraded    {output}'
-}
-
-external_script pacdiff {
-  cache_timeout = -1
-  button_show_notification = 1
-  script_path = "pacdiff -o"
-  format = '\?if=lines&color=degraded   {lines}'
 }
 
 keyboard_layout {
@@ -152,24 +53,10 @@ net_rate {
   unit = 'MB/s'
 }
 
-file_status decrypted {
-  paths = '/home/maximbaz/decrypted/.lock'
-  format = '\?if=path&color=degraded '
-}
-
 file_status VPN {
   cache_timeout = 10
   paths = '/proc/sys/net/ipv4/conf/tun0'
   format = '\?color=path 󰀁'
-}
-
-mega_sync {
-  format = "[\?color=degraded 󰁁  {format_sync}]"
-  format_sync = "[\?if=!syncstate=Synced {syncstate}]"
-}
-
-scratchpad_async {
-  format = '\?color=degraded 󰀿   {counter}'
 }
 
 group cpu {
@@ -224,39 +111,13 @@ whatismyip {
   url_geo = 'https://ifconfig.co/json'
 }
 
-group wifi {
-  button_next = 1
-  button_prev = 0
-
-  wifi brief {
-    cache_timeout = -1
-    signal_bad = 0
-    bitrate_bad = 0
-    bitrate_degraded = 0
-    format = '󰀆|󰀆'
-  }
-
-  wifi detailed {
-    cache_timeout = -1
-    signal_bad = 0
-    bitrate_bad = 0
-    bitrate_degraded = 0
-    format = '{ssid}  ({signal_percent})|󰀆'
-  }
-}
-
 xrandr {
   fixed_width = false
   hide_if_single_combination = true
-}
-
-usbguard {
-  format_button_allow = '  '
-  format_button_reject = '  '
 }
 
 yubikey {
   format = '[[\?if=is_gpg ][\?if=is_u2f ]  ]'
 }
 
-# vi: ft=sh
+# vi: ft=config
