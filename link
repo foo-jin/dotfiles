@@ -52,3 +52,6 @@ link_dir redshift
 # git
 link_dir git
 git config --global core.excludesfile $config_dir/git/ignore
+
+# dunst
+link_dir dunst
