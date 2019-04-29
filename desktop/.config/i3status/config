@@ -9,6 +9,7 @@ general {
 order += 'net_rate'
 order += 'group cpu'
 order += 'group ram'
+order += 'wifi'
 order += 'xrandr'
 order += 'file_status VPN'
 order += 'whatismyip'
@@ -108,6 +109,27 @@ whatismyip {
   icon_off = '󰀈'
   expected = {'country_iso': 'CH'}
   url_geo = 'https://ifconfig.co/json'
+}
+
+group wifi {
+  button_next = 1
+  button_prev = 0
+
+  wifi brief {
+    cache_timeout = -1
+    signal_bad = 0
+    bitrate_bad = 0
+    bitrate_degraded = 0
+    format = '󰀆|󰀆'
+  }
+
+  wifi detailed {
+    cache_timeout = -1
+    signal_bad = 0
+    bitrate_bad = 0
+    bitrate_degraded = 0
+    format = '{ssid}  ({signal_percent})|󰀆'
+  }
 }
 
 xrandr {
