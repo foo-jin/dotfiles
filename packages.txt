@@ -1,5 +1,7 @@
 alacritty
+breeze-icons
 conky
+cronie
 dunst
 exa
 firefox
@@ -15,6 +17,7 @@ pass
 passff-host
 pass-otp
 pass-update
+pop-gtk-theme
 pulseaudio
 pulseaudio-alsa
 py3status
