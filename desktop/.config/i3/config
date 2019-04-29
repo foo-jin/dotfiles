@@ -29,6 +29,10 @@ font pango: Taskbar, Cantarell 9
 ## startup programs
 exec --no-startup-id nitrogen --restore &
 exec --no-startup-id xmodmap ~/.config/Xmodmap &
+exec --no-startup-id udiskie -ant &
+exec --no-startup-id unclutter &
+exec --no-startup-id xbindkeys -f ~/.config/xbindkeysrc &
+exec --no-startup-id expressvpn connect &
 
 # Gaps
 gaps inner 5
@@ -50,7 +54,7 @@ bindsym $mod+Return exec $term
 bindsym $mod+q kill
 
 # start dmenu (a program launcher)
-bindsym $mod+d exec dmenu_run
+bindsym $mod+d exec i3-dmenu-desktop
 
 # custom keybinds
 bindsym $mod+p exec passmenu --type
@@ -218,6 +222,22 @@ mode "$mode_open" {
 
 bindsym $mod+o mode "$mode_open"
 
+# kde-plasma
+# Try to kill the wallpaper set by Plasma (it takes up the entire workspace and hides everythiing)
+# exec --no-startup-id wmctrl -c Plasma
+# for_window [title="Desktop — Plasma"] kill; floating enable; border none
+
+for_window [class="plasmashell"] floating enable;
+for_window [class="Plasma"] floating enable; border none
+for_window [title="plasma-desktop"] floating enable; border none
+for_window [title="win7"] floating enable; border none
+for_window [class="krunner"] floating enable; border none
+for_window [class="Kmix"] floating enable; border none
+for_window [class="Klipper"] floating enable; border none
+for_window [class="Plasmoidviewer"] floating enable; border none
+for_window [class="(?i)*nextcloud*"] floating disable
+for_window [class="plasmashell" window_type="notification"] floating enable, border none, move right 700px, move down 450px, no_focus
+
 # Color scheme (Gruvbox dark)
 set $color_normal_white  #a89984
 set $color_bright_white  #ebdbb2
@@ -252,5 +272,5 @@ bar {
   separator_symbol "  |  "
   status_command py3status
   position bottom
-  tray_output none
+  tray_output primary
 }

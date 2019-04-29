@@ -6,7 +6,6 @@ general {
   interval = 1
 }
 
-order += 'yubikey'
 order += 'net_rate'
 order += 'group cpu'
 order += 'group ram'
@@ -114,10 +113,6 @@ whatismyip {
 xrandr {
   fixed_width = false
   hide_if_single_combination = true
-}
-
-yubikey {
-  format = '[[\?if=is_gpg ][\?if=is_u2f ]  ]'
 }
 
 # vi: ft=config

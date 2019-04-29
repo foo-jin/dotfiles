@@ -6,6 +6,7 @@ firefox
 fish-git
 git
 htop
+i3-dmenu-desktop
 i3-gaps
 iw
 neovim
