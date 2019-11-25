@@ -9,7 +9,7 @@ general {
 order += 'net_rate'
 order += 'group cpu'
 order += 'group ram'
-order += 'wifi'
+order += 'group wifi'
 order += 'xrandr'
 order += 'file_status VPN'
 order += 'whatismyip'

@@ -274,3 +274,4 @@ bar {
   position bottom
   tray_output primary
 }
+# vi: ft=config
