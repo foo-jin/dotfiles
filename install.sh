@@ -8,7 +8,7 @@ if ! type yay; then
     cd /tmp
     git clone https://aur.archlinux.org/yay.git
     cd yay
-    makepgk -si
+    makepkg -si
 fi
 
 cd $script_home

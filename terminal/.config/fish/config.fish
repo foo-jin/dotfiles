@@ -50,7 +50,7 @@ set -l cfg $XDG_CONFIG_HOME
 awk 'BEGIN { FS = "=" } !/^#/ { printf("set -x %s %s\n", $1, $2) }' $cfg/user-dirs.dirs | source
 
 if nvim --version >/dev/null
-    set -x EDITOR (which nvim)
+    set -x EDITOR (which emacsclient) -nc
     set -x SUDO_EDITOR $EDITOR
     set -x SYSTEMD_EDITOR $EDITOR
 end
@@ -58,7 +58,6 @@ end
 set -x BROWSER firefox
 set -x TERMCMD alacritty
 set -x TZ 'Europe/Amsterdam'
-set -x RUST_BACKTRACE 1
 set -x RUSTFLAGS "-C target-cpu=native"
 set -x RIPGREP_CONFIG_PATH $cfg/ripgreprc
 set -x GNUPGHOME $cfg/gnupg
