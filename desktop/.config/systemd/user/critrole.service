@@ -1,0 +1,9 @@
+[Unit]
+Description=Record all streams on the critical role twitch channel.
+
+[Service]
+ExecStart=/usr/bin/twitchrec criticalrole -o %h/videos/critical-role/
+Restart=on-failure
+
+[Install]
+WantedBy=default.target

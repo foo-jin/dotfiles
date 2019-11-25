@@ -9,7 +9,7 @@
 #
 # Please see https://i3wm.org/docs/userguide.html for a complete reference!
 
-set $mod Mod3
+set $mod Mod4
 
 # Font for window titles. Will also be used by the bar unless a different font
 # is used in the bar {} block below.
@@ -27,12 +27,13 @@ font pango: Taskbar, Cantarell 9
 # font, it doesn’t scale on retina/hidpi displays.
 
 ## startup programs
+exec --no-startup-id alacritty &
 exec --no-startup-id nitrogen --restore &
-exec --no-startup-id xmodmap ~/.config/Xmodmap &
+# exec --no-startup-id xmodmap ~/.config/Xmodmap &
 exec --no-startup-id udiskie -ant &
 exec --no-startup-id unclutter &
 exec --no-startup-id xbindkeys -f ~/.config/xbindkeysrc &
-exec --no-startup-id expressvpn connect &
+# exec --no-startup-id expressvpn connect &
 
 # Gaps
 gaps inner 5
@@ -57,7 +58,7 @@ bindsym $mod+q kill
 bindsym $mod+d exec i3-dmenu-desktop
 
 # custom keybinds
-bindsym $mod+p exec passmenu --type
+bindsym $mod+p exec passmenu
 
 # There also is the (new) i3-dmenu-desktop which only displays applications
 # shipping a .desktop file. It is a wrapper around dmenu, so you need that

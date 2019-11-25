@@ -107,7 +107,7 @@ font:
   use_thin_strokes: true
 
 # Should display the render timer
-render_timer: false
+debug.render_timer: false
 
 # # Colors (Gruvbox dark)
 # colors:
@@ -233,7 +233,7 @@ visual_bell:
   duration: 0
 
 # Background opacity
-background_opacity: 0.95
+background_opacity: 1
 
 # Mouse bindings
 #
@@ -297,7 +297,12 @@ live_config_reload: true
 # Entries in shell.args are passed unmodified as arguments to the shell.
 #
 shell:
-  program: /bin/fish
+  program: /bin/tmux
+  args:
+    - new-session
+    - -A
+    - -s
+    - main
 
 # Key bindings
 #

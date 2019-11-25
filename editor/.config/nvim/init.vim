@@ -252,6 +252,13 @@ augroup vimrc-make-cmake
   autocmd BufNewFile,BufRead CMakeLists.txt setlocal filetype=cmake
 augroup END
 
+augroup filetypedetect
+  au! BufRead,BufNewFile *.bnf          setfiletype ebnf
+  au! BufRead,BufNewFile *.ebnf         setfiletype ebnf
+  au! BufRead,BufNewFile *.mcrl         setfiletype mcrl
+  au! BufRead,BufNewFile *.mcrl2        setfiletype mcrl2
+augroup END
+
 set autoread
 
 "*****************************************************************************
@@ -355,8 +362,8 @@ autocmd BufEnter * call ncm2#enable_for_buffer()
 set completeopt=noinsert,menuone,noselect
 " tab to select
 " and don't hijack my enter key
-inoremap <expr><Tab> (pumvisible()?(empty(v:completed_item)?"\<C-n>":"\<C-y>"):"\<Tab>")
-inoremap <expr><CR> (pumvisible()?(empty(v:completed_item)?"\<CR>\<CR>":"\<C-y>"):"\<CR>")
+" inoremap <expr><Tab> (pumvisible()?(empty(v:completed_item)?"\<C-n>":"\<C-y>"):"\<Tab>")
+" inoremap <expr><CR> (pumvisible()?(empty(v:completed_item)?"\<CR>\<CR>":"\<C-y>"):"\<CR>")
 
 "*****************************************************************************
 "*****************************************************************************
