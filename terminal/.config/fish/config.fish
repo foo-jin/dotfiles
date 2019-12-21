@@ -50,7 +50,7 @@ set -l cfg $XDG_CONFIG_HOME
 awk 'BEGIN { FS = "=" } !/^#/ { printf("set -x %s %s\n", $1, $2) }' $cfg/user-dirs.dirs | source
 
 if nvim --version >/dev/null
-    set -x EDITOR (which emacsclient) -nc
+    set -x EDITOR (which emacsclient) -c
     set -x SUDO_EDITOR $EDITOR
     set -x SYSTEMD_EDITOR $EDITOR
 end

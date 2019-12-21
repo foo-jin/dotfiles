@@ -1,8 +1,6 @@
 alacritty
 base-devel
 bat
-bat
-cronie
 cronie
 dmenu
 emacs
@@ -13,6 +11,7 @@ fish
 git
 htop
 hyperfine
+inetutils
 iw
 ncdu
 neovim
@@ -26,6 +25,7 @@ plasma
 ranger
 reflector
 ripgrep
+sddm
 skim
 stow
 syncthing
