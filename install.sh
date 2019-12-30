@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+set -e
 
 script_home="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 config_dir="${HOME}/.config/"
@@ -17,6 +18,6 @@ cd $script_home
 yay -S --needed - < packages.txt
 
 # stow all modules
-stow --no-folding editor gui scripts terminal
+stow --no-folding editor desktop scripts terminal
 
 git config --global core.excludesfile $config_dir/git/ignore

@@ -13,6 +13,7 @@ htop
 hyperfine
 inetutils
 iw
+man
 ncdu
 neovim
 networkmanager
@@ -25,6 +26,7 @@ plasma
 ranger
 reflector
 ripgrep
+rustup
 sddm
 skim
 stow
