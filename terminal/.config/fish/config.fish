@@ -42,7 +42,6 @@ end
 set -x PATH /usr/local/bin/ $PATH
 set -x PATH $PATH ~/bin
 set -x PATH $PATH ~/.cargo/bin
-set -x PATH $PATH ~/.emacs.d/bin
 
 set -x XDG_CONFIG_HOME $HOME/.config
 set -l cfg $XDG_CONFIG_HOME
@@ -51,8 +50,8 @@ awk 'BEGIN { FS = "=" } !/^#/ { printf("set -x %s %s\n", $1, $2) }' $cfg/user-di
 
 if nvim --version >/dev/null
     set -x EDITOR (which emacsclient) -c
-    set -x SUDO_EDITOR $EDITOR
-    set -x SYSTEMD_EDITOR $EDITOR
+    set -x SUDO_EDITOR (which nvim)
+    set -x SYSTEMD_EDITOR $SUDO_EDITOR
 end
 
 set -x BROWSER firefox
@@ -77,4 +76,3 @@ if test -z "$SSH_CLIENT"
     set -e SSH_AUTH_SOCK
     set -x SSH_AUTH_SOCK (gpgconf --list-dirs agent-ssh-socket)
 end
-
