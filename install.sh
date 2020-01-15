@@ -18,6 +18,6 @@ cd $script_home
 yay -S --needed - < packages.txt
 
 # stow all modules
-stow --no-folding editor desktop scripts terminal
+stow desktop scripts terminal
 
 git config --global core.excludesfile $config_dir/git/ignore
