@@ -1,4 +1,5 @@
 alacritty
+avahi
 base-devel
 bat
 cronie
@@ -18,6 +19,7 @@ ncdu
 neovim
 net-tools
 networkmanager
+nss-mdns
 openssh
 pass
 passff-host
@@ -32,6 +34,7 @@ rustup
 sddm
 skim
 stow
+sudo
 syncthing
 tmux
 tokei
