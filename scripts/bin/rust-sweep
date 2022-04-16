@@ -1,0 +1,18 @@
+#!/usr/bin/sh
+
+if [ "$(id -u)" -eq 0 ]; then
+    exec sudo -H -u frank $0 "$@"
+    echo "This is never reached.";
+fi
+
+temp="$(mktemp /tmp/rust-sweep.XXXXXX --suffix '.log')"
+cargo sweep -v -r -t 8 /home/frank/git/ > $temp
+out=$?
+
+if [ ${out} -eq 0 ]; then
+    rm -rf $temp
+    exit 0
+else
+    systemd-cat -t rust-sweep -p emerg echo "Failed to sweep, logs can be found at ${temp}"
+    exit $out
+fi
