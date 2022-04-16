@@ -2,6 +2,7 @@ alacritty
 avahi
 base-devel
 bat
+bottom
 cronie
 dmenu
 emacs
@@ -33,6 +34,7 @@ rsync
 rustup
 sddm
 skim
+starship
 stow
 sudo
 syncthing

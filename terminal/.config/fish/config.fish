@@ -19,6 +19,8 @@ else
     alias lls 'ls -la'
 end
 
+alias top btm
+
 if sk --version >/dev/null
     abbr -a -g fo sk-open
 end
@@ -50,14 +52,18 @@ awk 'BEGIN { FS = "=" } !/^#/ { printf("set -x %s %s\n", $1, $2) }' $cfg/user-di
 
 if emacs --version >/dev/null
     set -x EDITOR (which emacsclient) -c
-    set -x SUDO_EDITOR $EDITOR
-    set -x SYSTEMD_EDITOR $SUDO_EDITOR
+    set -x SYSTEMD_EDITOR $EDITOR
 end
+
+if nvim --version >/dev/null
+    set -x SUDO_EDITOR (which nvim)
+end
+
 
 set -x BROWSER firefox
 set -x TERMCMD alacritty
 set -x TZ 'Europe/Amsterdam'
-set -x RUSTFLAGS "-C target-cpu=native"
+set -x RUSTFLAGS "-C target-cpu=native -C link-arg=-fuse-ld=lld"
 set -x RIPGREP_CONFIG_PATH $cfg/ripgreprc
 set -x GNUPGHOME $cfg/gnupg
 set -x PASSWORD_STORE_GENERATED_LENGTH 20
@@ -76,3 +82,6 @@ if test -z "$SSH_CLIENT"
     set -e SSH_AUTH_SOCK
     set -x SSH_AUTH_SOCK (gpgconf --list-dirs agent-ssh-socket)
 end
+
+
+starship init fish | source

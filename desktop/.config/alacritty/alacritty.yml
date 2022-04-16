@@ -19,8 +19,8 @@ window:
   # Falls back to size specified by window manager if set to 0x0.
   # (changes require restart)
   dimensions:
-    columns: 0
-    lines: 0
+    columns: 105
+    lines: 100
 
   # Adds this many blank pixels of padding around the window
   # Units are physical pixels; this is not DPI aware.
@@ -31,7 +31,12 @@ window:
 
   # Window decorations
   # Setting this to false will result in window without borders and title bar.
-  decorations: "full"
+  decorations: "none"
+
+  dynamic_title: true
+
+  opacity: 1
+
 
 
 # When true, bold text is drawn using the bright variant of colors.
@@ -226,12 +231,10 @@ colors:
 #
 # To completely disable the visual bell, set its duration to 0.
 #
-visual_bell:
+bell:
   animation: EaseOutExpo
   duration: 0
 
-# Background opacity
-background_opacity: 1
 
 # Mouse bindings
 #
@@ -274,7 +277,6 @@ mouse:
 selection:
   semantic_escape_chars: ",│`|:\"' ()[]{}<>"
 
-dynamic_title: true
 
 
 # Style of the cursor
@@ -294,13 +296,15 @@ live_config_reload: true
 # You can set shell.program to the path of your favorite shell, e.g. /bin/fish.
 # Entries in shell.args are passed unmodified as arguments to the shell.
 #
+# shell:
+#   program: /bin/tmux
+#   args:
+#     - new-session
+#     - -A
+#     - -s
+#     - main
 shell:
-  program: /bin/tmux
-  args:
-    - new-session
-    - -A
-    - -s
-    - main
+  program: /usr/bin/fish
 
 # Key bindings
 #
@@ -346,12 +350,12 @@ key_bindings:
   - { key: N,        mods: Control, action: ScrollPageDown               }
   - { key: V,        mods: Control|Shift,    action: Paste               }
   - { key: C,        mods: Control|Shift,    action: Copy                }
-  - { key: Q,        mods: Command, action: Quit                         }
+  - { key: Q,        mods: Control, action: Quit                         }
   - { key: W,        mods: Command, action: Quit                         }
   - { key: Insert,   mods: Shift,   action: PasteSelection               }
   - { key: Key0,     mods: Control, action: ResetFontSize                }
   - { key: Equals,   mods: Control, action: IncreaseFontSize             }
-  - { key: Subtract, mods: Control, action: DecreaseFontSize             }
+  # - { key: Subtract, mods: Control, action: DecreaseFontSize             }
   - { key: Home,                    chars: "\x1bOH",   mode: AppCursor   }
   - { key: Home,                    chars: "\x1b[H",   mode: ~AppCursor  }
   - { key: End,                     chars: "\x1bOF",   mode: AppCursor   }
