@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+
+set -e
+
+mv $1 ~/.dotfiles/scripts/bin/
+cd ~/.dotfiles/
+stow scripts
