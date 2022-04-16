@@ -1,4 +1,4 @@
-#!/usr/bin/sh
+#!/usr/bin/env bash
 
 if [ "$(id -u)" -eq 0 ]; then
     exec sudo -H -u frank $0 "$@"
